@@ -40,50 +40,62 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Сохранить') {
     <div class="container-fluid">
         <i class="fa fa-clone" aria-hidden="true"></i>
         <i class="fa fa-angle-double-right right_cus"></i>
-        <span class="right_cus">Приход продукции на склад</span>
+        <span class="right_cus">Добавление контагента</span>
     </div>    
 </div>
 
 <div class="toolbar">
-        <div class="container-fluid">
-            <!-- <button type="button" class="btn btn-primary">Сохранить</button> -->
-            <!-- <button type="submit" form="order_form" name="save_add_pro" class="btn btn-success">Принять</button> -->
-            <td><input class="btn btn-success" type="submit" form="counterpartie_form" name="submit" value="Сохранить" />
+    <div class="container-fluid">
+        <!-- <button type="button" class="btn btn-primary">Сохранить</button> -->
+        <!-- <button type="submit" form="order_form" name="save_add_pro" class="btn btn-success">Принять</button> -->
+        <td><input class="btn btn-success" type="submit" form="counterpartie_form" name="submit" value="Сохранить" />
 
+        <a href="counterparties.php"><button type="button" class="btn btn-light">Закрыть</button></a>
 
-            <a href="counterparties.php"><button type="button" class="btn btn-light">Закрыть</button></a>
-
-        </div>
+    </div>
 </div>
 
-<div class="card_head">
+<section class="card_head">
     <div class="container-fluid">
         <form action="" method="POST" class="horizntal-form" id="counterpartie_form">
-        <div class="row">
+            <div class="row">
                 <div class="col-md-3">
                     <span>Название</span>
                 </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <input required type="text" class="form-control" name="name" form="counterpartie_form" >
+                </div>
+                
+            </div>
+            <div class="row mt">
                 <div class="col-md-3">
                     <span>Альтернативное название</span>
                 </div>
                 <div class="col-md-3">
                     <span>ИНН/ПНФЛ</span>
                 </div>
+                <div class="col-md-3">
+                    <span>Регистрационный код плательщика НДС</span>
+                </div>
+                
             </div>
             <div class="row">
-                <div class="col-md-3">
-                    <input required type="text" class="form-control" name="name" form="counterpartie_form" >
-                </div>
                 <div class="col-md-3"> 
                     <input required type="text" class="form-control" name="alternative_name" form="counterpartie_form">
                 </div>
                 <div class="col-md-3">
                     <input required type="text" class="form-control" name="inn" form="counterpartie_form">
                 </div>
+                <div class="col-md-3">
+                    <input required type="text" class="form-control" name="nds" form="counterpartie_form">
+                </div>
             </div>
             <div class="row mt">
                 <div class="col-md-3">
-                    <span>Регистрационный код плательщика НДС</span>
+                    <span>Адрес</span>
                 </div>
                 <div class="col-md-3">
                     <span>Расчетный счет</span>
@@ -94,7 +106,7 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Сохранить') {
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <input required type="text" class="form-control" name="nds" form="counterpartie_form">
+                    <input required type="text" class="form-control" name="address" form="counterpartie_form">
                 </div>
                 <div class="col-md-3">
                     <input required type="text" class="form-control" name="raschetny_schet" form="counterpartie_form">
@@ -103,21 +115,6 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Сохранить') {
                     <input required type="text" class="form-control" name="mfo" form="counterpartie_form">
                 </div>
             </div>
-
-            <div class="row mt">
-                <div class="col-md-3">
-                    <span>Адрес</span>
-                </div>
-                
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <input required type="text" class="form-control" name="address" form="counterpartie_form">
-                </div>
-               
-            </div>
-
-
             <div class="row mt">
             <div class="col-md-3">
                     <span>Контакт</span>
@@ -142,7 +139,7 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Сохранить') {
             </div>
         </form>
     </div>
-</div>
+</section>
 
 
 
@@ -156,56 +153,5 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Сохранить') {
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </body>
-<script>
-$(document).ready(function () {
-    var counter = 0;
-
-
- 
-
-    $("#addrow").on("click", function () {
-        var newRow = $("<tr>");
-        var cols = "";                                                      
-                
-                                                                                                                                                                 
-        cols += '<td><select name="prod_name[]" form="order_form" class="form-control"><option value="">--выберите продукцию--</option><option value="<?php echo $a; ?>"><?php echo $a; ?></option><option value="<?php echo $b; ?>"><?php echo $b; ?></option><option value="<?php echo $c; ?>"><?php echo $c; ?></option><option value="<?php echo $d; ?>"><?php echo $d; ?></option><option value="<?php echo $e; ?>"><?php echo $e; ?></option><option value="<?php echo $f; ?>"><?php echo $f; ?></option><option value="<?php echo $g; ?>"><?php echo $g; ?></option><option value="<?php echo $h; ?>"><?php echo $h; ?></option><option value="<?php echo $i; ?>"><?php echo $i; ?></option><option value="<?php echo $j; ?>"><?php echo $j; ?></option></select></td>';
-        cols += '<td><input required type="text" name="count_name[]"  class="form-control" form="order_form"/></td>'; 
-        cols += '<td><input required type="date" name="date_name[]"  class="form-control" form="order_form"/></td>';
-        cols += '<td><input required type="text" name="price_name[]"  class="form-control" form="order_form"/></td>';
-        cols += '<td><input required type="text" name="sale_name[]"  class="form-control" form="order_form"/></td>';
-        // cols += '<td><input disabled type="text" name="total_name[]"  class="form-control" form="order_form"/></td>';
-
-
-        cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
-        newRow.append(cols);
-        $("table.order-list").append(newRow);
-        counter++;
-    });
-
-
-
-    $("table.order-list").on("click", ".ibtnDel", function (event) {
-        $(this).closest("tr").remove();       
-        counter -= 1
-    });
-
-
-});
-
-
-
-function calculateRow(row) {
-    var price = +row.find('input[name^="price"]').val();
-
-}
-
-function calculateGrandTotal() {
-    var grandTotal = 0;
-    $("table.order-list").find('input[name^="price"]').each(function () {
-        grandTotal += +$(this).val();
-    });
-    $("#grandtotal").text(grandTotal.toFixed(2));
-} 
-</script>
 </html>
 
