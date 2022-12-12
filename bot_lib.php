@@ -578,6 +578,20 @@ function add_each_pro($connect) {
 
 //orto 
 
+
+
+function add_product($connect) {
+	$name=$_POST['name'];
+	$unit=$_POST['unit'];
+
+	$sql = "INSERT INTO `products_tbl` (`name`, `unit`) VALUES ('".$name."','".$unit."');";
+	if(mysqli_query($connect, $sql)) {
+		redirect("products.php");
+	}
+	
+	
+}
+
 function add_counterparties($connect) {
 	$name=$_POST['name'];
 	$alternative_name=$_POST['alternative_name'];

@@ -43,7 +43,7 @@
         <ul class="dropdown-menu">
           <li><a href="#"></a></li>
           <li><a href="counterparties.php">Контрагенты</a></li>
-          <li><a href="#">Продукт и цена</a></li>
+          <li><a href="products.php">Продукт и цена</a></li>
           <li><a href="#">Пользователи</a></li>
           <li><a href="#">Роль</a></li>
         </ul>
