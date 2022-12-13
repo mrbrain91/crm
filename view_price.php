@@ -19,16 +19,6 @@ if (isset($_GET['id'])) {
 }
 
 
-
-if(isset($_POST['submit']) && $_POST['submit'] == 'Добавить') {
-    $product_name = $_POST['product_name'];
-    $product_price = $_POST['product_price'];
-    add_product_price($connect, $id, $product_price, $product_name);
-}
-
-
-
-
 ?>
 
 
@@ -59,7 +49,7 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Добавить') {
     <div class="container-fluid">
         <i class="fa fa-clone" aria-hidden="true"></i>
         <i class="fa fa-angle-double-right right_cus"></i>
-        <span class="right_cus">Редактировать цена</span>
+        <span class="right_cus">Просмотр цена</span>
     </div>    
 </div>
 
@@ -71,52 +61,12 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Добавить') {
 
 
 <div>
-    <div class="container-fluid"> 
-        <div class="card_head card_head_mt0">
-        <form action=""  method="POST" class="horizntal-form" id="order_form">
-            <div class="row mt">
-                <div class="col-md-3">
-                    <span>Продукция</span>
-                </div>
-                <div class="col-md-2">
-                    <span>Цена</span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <select required name="product_name" form="order_form" class="form-control">
-                        <option value="">--выберитe---</option>
-                        <?php     
-                            while ($option = mysqli_fetch_array($product_list)) {    
-                        ?> 
-                            <option value="<?php echo $option["name"];?>"><?php echo $option["name"];?></option>
-                        <?php       
-                            };    
-                        ?>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <input required name="product_price" type="text" class="form-control" form="order_form">
-                </div>
-                <div class="col-md-3">
-                    <input class="btn btn-success" type="submit" form="order_form" name="submit" value="Добавить" />
-                </div>
-
-            </div>
-            
-        </form></br>
-        </div>
-
-
-
-
-        
+    <div class="container-fluid">
         <table class="table table-hover table-bordered">
         <thead>
             <tr>
             <th scope="col">Название</th>
             <th scope="col">Цена</th>
-            <th scope="col">Удалить</th>
             </tr>
         </thead>
         <tbody>
@@ -126,7 +76,6 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Добавить') {
             <tr>
                 <td><?php echo $row["name"]; ?></td>
                 <td><?php echo $row["cost"]; ?></td>
-                <td><a href="#" onclick="return confirm('Удалить?')" role="button">Удалить</a></td>
             </tr>
 <?php       
     };    

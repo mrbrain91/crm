@@ -579,6 +579,20 @@ function add_each_pro($connect) {
 //orto 
 
 
+function add_product_price($connect, $id, $product_price, $product_name){
+
+	$sql = "INSERT INTO `price_item_tbl` (`price_id`, `name`, `cost`) VALUES ('".$id."','".$product_name."','".$product_price."');";
+	if(mysqli_query($connect, $sql)) {
+		redirect("edit_price.php?id=$id");
+	}
+	else {
+		die(mysqli_error($connect));
+	}
+	
+	
+}
+
+
 
 function add_product($connect) {
 	$name=$_POST['name'];
