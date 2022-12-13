@@ -17,16 +17,10 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Принять') {
 
 }
 
-$a = 'Пластырь One Aid PVC 19x72 №500';
-$b = 'Пластырь One Aid PVC 19x72 №100';
-$c = 'Пластырь One Aid PVC 19x72 №8';
-$d = 'Пластырь One Aid PVC 25x72 №7';
-$e = 'Пластырь One Aid PVC 38x72 №5';
-$f = 'Пластырь One Aid PVC MIX №12';
-$g = 'Пластырь One Aid PU 19x72 №5';
-$h = 'Пластырь One Aid PU 38x72 №3';
-$i = 'Пластырь One Aid PU MIX №9';
-$j = 'Пластырь One Aid PU 60x70 №3';
+$sql = "SELECT * FROM products_tbl";  
+$product_list = mysqli_query ($connect, $sql);
+
+
 
 
 
@@ -129,20 +123,16 @@ $j = 'Пластырь One Aid PU 60x70 №3';
         <tbody>
             <tr>
                 <td class="col-sm-4">
-                    <select name="prod_name[]" form="order_form" class="form-control">
-                        <option value="">--выберите продукцию---</option>
-                        <option value="<?php echo $a;?>"><?php echo $a;?></option>
-                        <option value="<?php echo $b;?>"><?php echo $b;?></option>
-                        <option value="<?php echo $c;?>"><?php echo $c;?></option>
-                        <option value="<?php echo $d;?>"><?php echo $d;?></option>
-                        <option value="<?php echo $e;?>"><?php echo $e;?></option>
-                        <option value="<?php echo $f;?>"><?php echo $f;?></option>
-                        <option value="<?php echo $g;?>"><?php echo $g;?></option>
-                        <option value="<?php echo $h;?>"><?php echo $h;?></option>
-                        <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                        <option value="<?php echo $j;?>"><?php echo $j;?></option>
+                    <select required name="prod_name[]" form="order_form" class="form-control">
+                        <option value="">--выберитe продукцию---</option>
+                        <?php     
+                            while ($option = mysqli_fetch_array($product_list)) {    
+                        ?> 
+                            <option value="<?php echo $option["name"];?>"><?php echo $option["name"];?></option>
+                        <?php       
+                            };    
+                        ?>
                     </select>
-
                 </td>
                 <td class="col-sm-1">
                     <input required type="text" name="count_name[]"  class="form-control" form="order_form"/>
@@ -198,25 +188,27 @@ $j = 'Пластырь One Aid PU 60x70 №3';
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </body>
 <script>
+
+<?php 
+
+$sql = "SELECT * FROM products_tbl";  
+$product_list = mysqli_query ($connect, $sql);
+
+?>
+
 $(document).ready(function () {
     var counter = 0;
-
-
  
 
     $("#addrow").on("click", function () {
         var newRow = $("<tr>");
         var cols = "";                                                      
-                
-                                                                                                                                                                 
-        cols += '<td><select name="prod_name[]" form="order_form" class="form-control"><option value="">--выберите продукцию--</option><option value="<?php echo $a; ?>"><?php echo $a; ?></option><option value="<?php echo $b; ?>"><?php echo $b; ?></option><option value="<?php echo $c; ?>"><?php echo $c; ?></option><option value="<?php echo $d; ?>"><?php echo $d; ?></option><option value="<?php echo $e; ?>"><?php echo $e; ?></option><option value="<?php echo $f; ?>"><?php echo $f; ?></option><option value="<?php echo $g; ?>"><?php echo $g; ?></option><option value="<?php echo $h; ?>"><?php echo $h; ?></option><option value="<?php echo $i; ?>"><?php echo $i; ?></option><option value="<?php echo $j; ?>"><?php echo $j; ?></option></select></td>';
+        
+        cols += '<td class="col-sm-4"><select required name="prod_name[]" form="order_form" class="form-control"><option value="">--выберитe продукцию---</option><?php while ($option = mysqli_fetch_array($product_list)) { ?> <option value="<?php echo $option["name"];?>"><?php echo $option["name"];?></option> <?php }; ?></select></td>'
         cols += '<td><input required type="text" name="count_name[]"  class="form-control" form="order_form"/></td>'; 
         cols += '<td><input required type="date" name="date_name[]"  class="form-control" form="order_form"/></td>';
         cols += '<td><input required type="text" name="price_name[]"  class="form-control" form="order_form"/></td>';
         cols += '<td><input required type="text" name="sale_name[]"  class="form-control" form="order_form"/></td>';
-        // cols += '<td><input disabled type="text" name="total_name[]"  class="form-control" form="order_form"/></td>';
-
-
         cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
         newRow.append(cols);
         $("table.order-list").append(newRow);
@@ -235,18 +227,7 @@ $(document).ready(function () {
 
 
 
-function calculateRow(row) {
-    var price = +row.find('input[name^="price"]').val();
 
-}
-
-function calculateGrandTotal() {
-    var grandTotal = 0;
-    $("table.order-list").find('input[name^="price"]').each(function () {
-        grandTotal += +$(this).val();
-    });
-    $("#grandtotal").text(grandTotal.toFixed(2));
-} 
 </script>
 </html>
 

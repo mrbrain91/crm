@@ -46,7 +46,7 @@
           <li><a href="products.php">Продукт</a></li>
           <li><a href="price.php">Цена</a></li>
           <li><a href="users.php">Пользователи</a></li>
-          <li><a href="#">Роль</a></li>
+          <!-- <li><a href="#">Роль</a></li> -->
         </ul>
       </li>
      

@@ -10,12 +10,25 @@ if (!isset($_SESSION['usersname'])) {
 $last_id = get_id_new_ord($connect);
 
 
+//get  users
+$sql = "SELECT * FROM users_tbl WHERE role='sale'";
+$users_tbl = mysqli_query ($connect, $sql);
+//end get users 
+
+
+//get counterparties
+$sql = "SELECT * FROM counterparties_tbl";
+$counterparties_tbl = mysqli_query ($connect, $sql);
+//end get counterparties 
+
 if(isset($_POST['submit']) && $_POST['submit'] == 'Принять') {
     add_each_ord($connect);
     $summ_prod = get_sum_main_ord($connect);
     add_main_prod($connect, $summ_prod);
 
 }
+
+
 
 $a = 'Пластырь One Aid PVC 19x72 №500';
 $b = 'Пластырь One Aid PVC 19x72 №100';
@@ -110,19 +123,28 @@ $j = 'Пластырь One Aid PU 60x70 №3';
                 <div class="col-md-3">
                     <select required name="main_order_sale_agent" form="order_form" class="form-control">
                         <option value="">--выберитe---</option>
-                        <option value="<?php echo 'Khamidov Khakimjon Makhmudovich';?>"><?php echo 'Khamidov Khakimjon Makhmudovich';?></option>
-                        <option value="<?php echo 'Yuldoshev Fazliddin Xudoyorovich';?>"><?php echo 'Yuldoshev Fazliddin Xudoyorovich';?></option>
+                        <?php    
+                            while ($option = mysqli_fetch_array($users_tbl)) {    
+                        ?>
+                            <option value="<?php echo $option["id"];?>"><?php echo $option["surname"]?> <?php echo $option["name"];?> <?php echo $option["fathername"];?></option>
+                        <?php       
+                            };    
+                        ?>
                     </select>
                 </div>
                 <div class="col-md-3">
                     <select required name="main_order_contractor" form="order_form" class="form-control">
-                        <option value="">--выберите---</option>
-                        <option value="<?php echo 'ООО EURO PHARM MARKET';?>"><?php echo 'ООО EURO PHARM MARKET';?></option>
-                        <option value="<?php echo 'ООО MEROS PHARM';?>"><?php echo 'ООО MEROS PHARM';?></>
+                        <option value="">--выберитe---</option>
+                        <?php    
+                            while ($option_counter = mysqli_fetch_array($counterparties_tbl)) {    
+                        ?>
+                            <option value="<?php echo $option_counter["id"];?>"><?php echo $option_counter["name"]?></option>
+                        <?php
+                            };    
+                        ?>
                     </select>
                 </div>
-            </div>
-            
+            </div>      
         </form>
     </div>
 </div>
@@ -171,10 +193,6 @@ $j = 'Пластырь One Aid PU 60x70 №3';
             <td class="col-sm-1">
                 <input required type="number" name="quantity[]"  class="form-control quantity" id='quantity_1' for='1' form="order_form"/>
             </td>
-            <!-- <td class="col-sm-2">
-                <input required type="date" name="date_name[]"  class="form-control" form="order_form"/>
-                
-            </td> -->
             <td class="col-sm-1">
                 <div id="txtHint">
                     <input disabled data-type="product_price" type="number" name="product_price[]" id='product_price_1'  class="form-control product_price" for="1" form="order_form"/">
