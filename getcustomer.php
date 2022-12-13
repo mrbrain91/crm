@@ -16,7 +16,7 @@ $stmt->fetch();
 $stmt->close();
 ?>
 
-<input disabled data-type="product_price" type="number" name="product_price[]" id='product_price_1'  class="form-control product_price" for="1" form="order_form"/ value="<?php echo $pn;?>">
+<input data-type="product_price" type="number" name="product_price[]" id='product_price_1'  class="form-control product_price" for="1" form="order_form"/ value="<?php echo $pn;?>">
 
 <!-- <input disabled type="text" name="price_name[]"  class="form-control quantity" form="order_form"/ value="<?php echo $pn;?>"> -->
 

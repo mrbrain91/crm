@@ -49,6 +49,17 @@ if (isset($_GET['archive_id'])) {
     
 }
 
+
+//yangi prays yaratish
+if (isset($_GET['create_new_price'])) {
+    $date = date('Y-m-d H:i:s');
+    $sql = "INSERT INTO `price_tbl` (`date`) VALUES ('$date')";
+	if(mysqli_query($connect, $sql)) {
+		redirect("price.php");
+	}
+    
+}
+
 if (isset($_GET['restore_id'])) {
     $restore_id = $_GET['restore_id'];
 
