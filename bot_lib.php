@@ -578,6 +578,24 @@ function add_each_pro($connect) {
 
 //orto 
 
+function add_user($connect) {
+	$name = $_POST['name'];
+    $surname = $_POST['surname'];
+    $fathername = $_POST['fathername'];
+    $login = $_POST['login'];
+    $pass = $_POST['pass'];
+    $role = $_POST['role'];
+    $status = $_POST['status'];
+
+	$sql = "INSERT INTO `users_tbl` (`name`, `surname`, `fathername`, `login`, `pass`, `role`, `status`) VALUES ('".$name."','".$surname."','".$fathername."','".$login."','".$pass."','".$role."','".$status."');";
+	if(mysqli_query($connect, $sql)) {
+		redirect("users.php");
+	}
+	
+	
+}
+
+
 
 function add_product_price($connect, $id, $product_price, $product_name){
 

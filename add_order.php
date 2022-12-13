@@ -118,7 +118,7 @@ $j = 'Пластырь One Aid PU 60x70 №3';
                     <select required name="main_order_contractor" form="order_form" class="form-control">
                         <option value="">--выберите---</option>
                         <option value="<?php echo 'ООО EURO PHARM MARKET';?>"><?php echo 'ООО EURO PHARM MARKET';?></option>
-                        <option value="<?php echo 'ООО MEROS PHARM';?>"><?php echo 'ООО MEROS PHARM';?></option>
+                        <option value="<?php echo 'ООО MEROS PHARM';?>"><?php echo 'ООО MEROS PHARM';?></>
                     </select>
                 </div>
             </div>
