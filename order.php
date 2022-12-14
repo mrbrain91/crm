@@ -13,7 +13,6 @@ $query = "SELECT * FROM main_ord_tbl WHERE order_status='0' ORDER by id DESC";
 $rs_result = mysqli_query ($connect, $query);   
 
 
-
 ?>
 
 
@@ -102,8 +101,8 @@ $rs_result = mysqli_query ($connect, $query);
             <tr>
             
                 <!-- <td><?php echo $row["id"]; ?></td> -->
-                <td><?php echo $row["contractor"]; ?></td>
-                <td><?php echo $row["sale_agent"]; ?></td>
+                <td><?php $user = get_contractor($connect, $row["contractor"]);?>&nbsp;<?php echo $user["surname"]; ?>&nbsp;<?php echo $user["name"]; ?>&nbsp;<?php echo $user["fathername"]; ?></td>
+                <td><?php $user = get_user($connect, $row["sale_agent"]);?>&nbsp;<?php echo $user["surname"]; ?>&nbsp;<?php echo $user["name"]; ?>&nbsp;<?php echo $user["fathername"]; ?></td>
                 <td><?php echo $row["ord_date"]; ?></td>
                 <td><?php echo $row["payment_type"]; ?></td>
                 <td><?php echo number_format($row['transaction_amount']); ?></td>

@@ -32,24 +32,12 @@ $product_list = mysqli_query ($connect, $sql);
 
 
 if(isset($_POST['submit']) && $_POST['submit'] == 'Принять') {
+
     add_each_ord($connect);
     $summ_prod = get_sum_main_ord($connect);
-    add_main_prod($connect, $summ_prod);
+    add_main_ord($connect, $summ_prod);
 
 }
-
-
-
-$a = 'Пластырь One Aid PVC 19x72 №500';
-$b = 'Пластырь One Aid PVC 19x72 №100';
-$c = 'Пластырь One Aid PVC 19x72 №8';
-$d = 'Пластырь One Aid PVC 25x72 №7';
-$e = 'Пластырь One Aid PVC 38x72 №5';
-$f = 'Пластырь One Aid PVC MIX №12';
-$g = 'Пластырь One Aid PU 19x72 №5';
-$h = 'Пластырь One Aid PU 38x72 №3';
-$i = 'Пластырь One Aid PU MIX №9';
-$j = 'Пластырь One Aid PU 60x70 №3';
 
 
 

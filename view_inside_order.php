@@ -148,7 +148,7 @@ $rs_result = mysqli_query ($connect, $query);
                 
             </td>
             <td class="col-sm-1">
-                <span>-<?php echo $row["sale_name"]; ?></span>
+                <span><?php echo $row["sale_name"]; ?></span>
             </td>
             <td class="col-sm-2">
                 <span><?php echo number_format($row['total_name']); ?></span>

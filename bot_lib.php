@@ -155,6 +155,24 @@ function get_pi_last_count($connect, $pi){
 }
 
 
+function get_user($connect, $user_id){
+	$query = "SELECT * FROM users_tbl WHERE id='$user_id'";
+	$result = mysqli_query($connect, $query);
+	if(!$result)
+		die(mysqli_error($connect));
+	$user = mysqli_fetch_assoc($result);
+	return $user;
+}
+
+function get_contractor($connect, $contractor_id){
+	$query = "SELECT * FROM counterparties_tbl WHERE id='$contractor_id'";
+	$result = mysqli_query($connect, $query);
+	if(!$result)
+		die(mysqli_error($connect));
+	$contractor = mysqli_fetch_assoc($result);
+	return $contractor;
+}
+
 
 // orto
 
@@ -536,7 +554,7 @@ function get_id_new_ord($connect){
 
 //orto 
 
-function add_each_pro($connect) {
+function add_each_prod($connect) {
 
 	$query = "SELECT id FROM order_tbl ORDER BY id DESC LIMIT 1";
 	$result = mysqli_query($connect, $query);
@@ -646,7 +664,6 @@ function add_counterparties($connect) {
 
 
 function add_each_ord($connect) {
-
 	$query = "SELECT id FROM main_ord_tbl ORDER BY id DESC LIMIT 1";
 	$result = mysqli_query($connect, $query);
 	$rows = mysqli_fetch_row($result);
@@ -660,15 +677,22 @@ function add_each_ord($connect) {
         foreach($_POST['prod_name'] as $row => $value){
 
                 $prod_name=$_POST['prod_name'][$row];
-                $count_name=$_POST['count_name'][$row];
-                $date_name=$_POST['date_name'][$row];                   
-                $price_name=$_POST['price_name'][$row];
-                $sale_name=$_POST['sale_name'][$row];
-    			$total_name = ($count_name * $price_name) - ($count_name * $price_name * $sale_name) / 100;
+                $count_name=$_POST['quantity'][$row];
+                $date_name=$_POST['main_order_date'];                   
+                $price_name=$_POST['product_price'][$row];
+                $sale_name=$_POST['sale'][$row];
+    			$total_name = ($count_name * $price_name) + ($count_name * $price_name * $sale_name) / 100;
 				$order_id = $last_id + 1;
 
              $sql = "INSERT INTO `main_ord__item_tbl` (`order_id`, `prod_name`, `count_name`, `date_name`, `price_name`, `sale_name`, `total_name`) VALUES ('".$order_id."','".$prod_name."','".$count_name."','".$date_name."','".$price_name."','".$sale_name."','".$total_name."');";
-              mysqli_query($connect, $sql);
+              
+
+			if (mysqli_query($connect, $sql)) {
+				echo 'successfully';
+			}
+			else {
+				echo("Error description: " . $mysqli -> error);
+			}
 
 		// add to bron 
 			$query = "UPDATE rest_tbl SET bron = bron + '$count_name' WHERE prod_name='$prod_name'";
@@ -774,7 +798,7 @@ function add_prod($connect, $summ_prod) {
 }
 
 // orto 
-function add_main_prod($connect, $summ_prod) {
+function add_main_ord($connect, $summ_prod) {
 	
 	$main_order_contractor = $_POST['main_order_contractor'];
 	$main_order_sale_agent = $_POST['main_order_sale_agent'];
@@ -862,15 +886,15 @@ function add_street($connect, $name_of_street, $id_region, $id_quarter){
 */
 
 // BOT FUNC
-function get_user($connect, $chat_id){
-	$query = sprintf("SELECT * FROM users WHERE chat_id=%d", (int)$chat_id);
-	$result = mysqli_query($connect, $query);
-	if(!$result)
-		die(mysqli_error($connect));
-	$get_user = mysqli_fetch_assoc($result);
-	return $get_user;
+// function get_user($connect, $chat_id){
+// 	$query = sprintf("SELECT * FROM users WHERE chat_id=%d", (int)$chat_id);
+// 	$result = mysqli_query($connect, $query);
+// 	if(!$result)
+// 		die(mysqli_error($connect));
+// 	$get_user = mysqli_fetch_assoc($result);
+// 	return $get_user;
 
-}
+// }
 
 /*
  Function for add text entered by user
