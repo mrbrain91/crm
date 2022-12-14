@@ -4,8 +4,11 @@ if($mysqli->connect_error) {
   exit('Could not connect');
 }
 
-$sql = "SELECT price_name
-FROM order_item_product WHERE prod_name = ? ORDER BY id DESC LIMIT 1";
+if (isset($_GET['i'])) {
+  $i = $_GET['i'];
+}
+// echo $_GET['i'];
+$sql = "SELECT cost FROM price_item_tbl WHERE name = ? AND price_id=(SELECT max(id) FROM price_tbl)"; 
 
 $stmt = $mysqli->prepare($sql);
 $stmt->bind_param("s", $_GET['q']);
@@ -16,7 +19,6 @@ $stmt->fetch();
 $stmt->close();
 ?>
 
-<input data-type="product_price" type="number" name="product_price[]" id='product_price_1'  class="form-control product_price" for="1" form="order_form"/ value="<?php echo $pn;?>">
+<input readonly data-type="product_price" type="number" name="product_price[]"  class="form-control product_price" form="order_form"/ id="product_price_<?php echo $i;?>" value="<?php echo $pn;?>">
 
-<!-- <input disabled type="text" name="price_name[]"  class="form-control quantity" form="order_form"/ value="<?php echo $pn;?>"> -->
 

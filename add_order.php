@@ -21,6 +21,16 @@ $sql = "SELECT * FROM counterparties_tbl";
 $counterparties_tbl = mysqli_query ($connect, $sql);
 //end get counterparties 
 
+
+
+//get product from price 
+$sql = "SELECT * FROM price_item_tbl WHERE price_id=(SELECT max(id) FROM price_tbl)";  
+$product_list = mysqli_query ($connect, $sql);
+//end get product
+
+
+
+
 if(isset($_POST['submit']) && $_POST['submit'] == 'Принять') {
     add_each_ord($connect);
     $summ_prod = get_sum_main_ord($connect);
@@ -136,9 +146,9 @@ $j = 'Пластырь One Aid PU 60x70 №3';
                     <select required name="main_order_contractor" form="order_form" class="form-control">
                         <option value="">--выберитe---</option>
                         <?php    
-                            while ($option_counter = mysqli_fetch_array($counterparties_tbl)) {    
+                            while ($option_contractor = mysqli_fetch_array($counterparties_tbl)) {    
                         ?>
-                            <option value="<?php echo $option_counter["id"];?>"><?php echo $option_counter["name"]?></option>
+                            <option value="<?php echo $option_contractor["id"];?>"><?php echo $option_contractor["name"]?></option>
                         <?php
                             };    
                         ?>
@@ -172,29 +182,24 @@ $j = 'Пластырь One Aid PU 60x70 №3';
         </tr>
     </thead>
     <tbody>
-
-
         <tr>
             <td class="col-sm-4">
-                <select required name="prod_name[]" form="order_form" class="form-control" onchange="showCustomer(this.value)">
-                    <option value="">--выберите продукцию---</option>
-                    <option value="<?php echo $a;?>"><?php echo $a;?></option>
-                    <option value="<?php echo $b;?>"><?php echo $b;?></option>
-                    <option value="<?php echo $c;?>"><?php echo $c;?></option>
-                    <option value="<?php echo $d;?>"><?php echo $d;?></option>
-                    <option value="<?php echo $e;?>"><?php echo $e;?></option>
-                    <option value="<?php echo $f;?>"><?php echo $f;?></option>
-                    <option value="<?php echo $g;?>"><?php echo $g;?></option>
-                    <option value="<?php echo $h;?>"><?php echo $h;?></option>
-                    <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                    <option value="<?php echo $j;?>"><?php echo $j;?></option>
+                <select required name="prod_name[]" form="order_form" class="form-control" id='prod_name_1' for='1' onchange="showCustomer(this.value,'1')">
+                    <option value="">--выберитe продукцию---</option>
+                    <?php     
+                        while ($option = mysqli_fetch_array($product_list)) {    
+                    ?> 
+                        <option value="<?php echo $option["name"];?>"><?php echo $option["name"];?></option>
+                    <?php       
+                        };    
+                    ?>
                 </select>
             </td>
             <td class="col-sm-1">
                 <input required type="number" name="quantity[]"  class="form-control quantity" id='quantity_1' for='1' form="order_form"/>
             </td>
             <td class="col-sm-1">
-                <div id="txtHint">
+                <div id="txtHint_1">
                     <input disabled data-type="product_price" type="number" name="product_price[]" id='product_price_1'  class="form-control product_price" for="1" form="order_form"/">
                 </div>
             </td>
@@ -206,13 +211,7 @@ $j = 'Пластырь One Aid PU 60x70 №3';
                 <input readonly type="text" name="total_cost[] "  class="form-control total_cost" id='total_cost_1' for='1' form="order_form"/>
                 
             </td>
-            <td class="col-sm-1">
-                <!-- <i class="fa fa-plus"  id="addrow" style="cursor:pointer"></i> -->
-                <td><button type="button" name="add" id="add" class="btn btn-success circle">+</button></td>
-
-            </td>
-            
-            <td class="col-sm-1"><a class="deleteRow"></a>
+             <td><button type="button" name="addrow" id="addrow" class="btn btn-success circle">+</button></td>
 
             </td>
         </tr>
@@ -237,20 +236,20 @@ $j = 'Пластырь One Aid PU 60x70 №3';
 
 <div class="line line-dashed line-lg pull-in" style="clear: both;"></div>
         
-        <div class="col-md-12 nopadding">
-          <div class="col-md-4 col-md-offset-4 pull-right nopadding">
-            <div class="col-md-8 pull-right nopadding">
-              <div class="form-group">
+<div class="col-md-12 nopadding">
+    <div class="col-md-4 col-md-offset-4 pull-right nopadding">
+        <div class="col-md-8 pull-right nopadding">
+            <div class="form-group">
                 <td><input class="form-control subtotal" type='text' id='subtotal' name='subtotal' readonly/></td>
-              </div>
             </div>
-            <div class="col-md-3 pull-right">
-              <div class="form-group">
-                <label>Subtotal</label>
-              </div>
-            </div>
-          </div>
         </div>
+        <div class="col-md-3 pull-right">
+            <div class="form-group">
+                <label>Subtotal</label>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -275,32 +274,26 @@ $j = 'Пластырь One Aid PU 60x70 №3';
 
 // -------------------------------------------- select bazadan olish-------------------------------------------------------
 
-
-function showCustomer(str) {
+function showCustomer(str, inc) {
   var xhttp;    
   if (str == "") {
-    document.getElementById("txtHint").innerHTML = "";
+    document.getElementById("txtHint_"+inc).innerHTML = "";
     return;
   }
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("txtHint").innerHTML = this.responseText;
+      document.getElementById("txtHint_"+inc).innerHTML = this.responseText;
+
     }
   };
-  xhttp.open("GET", "getcustomer.php?q="+str, true);
+  xhttp.open("GET", "getcustomer.php?q="+str+"&&i="+inc+"", true);
   xhttp.send();
 }
 
 // ----------------------------------------------input calculate------------------------------------------------------------------------------
 
-var rowCount = 1;
-  
-  $('#add').click(function() {
-    rowCount++;
-    // $('#orders').append('<tr id="row'+rowCount+'"><td><input class="form-control product_price" type="number" data-type="product_price" id="product_price_'+rowCount+'" name="product_price[]" for="'+rowCount+'"/></td><input class="form-control" type="hidden" data-type="product_id" id="product_id_'+rowCount+'" name="product_id[]" for="'+rowCount+'"/><td><input class="form-control quantity" type="number" class="quantity" id="quantity_'+rowCount+'" name="quantity[]" for="'+rowCount+'"/> </td><td><input class="form-control total_cost" type="text" id="total_cost_'+rowCount+'" name="total_cost[]"  for="'+rowCount+'" readonly/> </td><td><button type="button" name="remove" id="'+rowCount+'" class="btn btn-danger btn_remove cicle">-</button></td></tr>');
-    $('#orders').append('<tr id="row'+rowCount+'"><td class="col-sm-4"><select required name="prod_name[]" form="order_form" class="form-control" onchange="showCustomer(this.value)"><option value="">--выберите продукцию---</option><option value="<?php echo $a;?>"><?php echo $a;?></option><option value="<?php echo $b;?>"><?php echo $b;?></option><option value="<?php echo $c;?>"><?php echo $c;?></option><option value="<?php echo $d;?>"><?php echo $d;?></option><option value="<?php echo $e;?>"><?php echo $e;?></option><option value="<?php echo $f;?>"><?php echo $f;?></option><option value="<?php echo $g;?>"><?php echo $g;?></option><option value="<?php echo $h;?>"><?php echo $h;?></option><option value="<?php echo $i;?>"><?php echo $i;?></option><option value="<?php echo $j;?>"><?php echo $j;?></option></select></td><td class="col-sm-1"><input class="form-control quantity" required type="number" class="form-control quantity" id="quantity_'+rowCount+'" name="quantity[]" for="'+rowCount+'" form="order_form"/> </td><td class="col-sm-1"><div id="txtHint"><input disabled data-type="product_price" class="form-control product_price" type="number" data-type="product_price" id="product_price_'+rowCount+'" name="product_price[]" for="'+rowCount+'"/></div></td><input class="form-control" type="hidden" data-type="product_id" id="product_id_'+rowCount+'" name="product_id[]" for="'+rowCount+'"/><td><input class="form-control total_cost" type="text" id="total_cost_'+rowCount+'" name="total_cost[]"  for="'+rowCount+'" readonly/> </td><td><button type="button" name="remove" id="'+rowCount+'" class="btn btn-danger btn_remove cicle">-</button></td></tr>');
-});
+
 
 // Add a generic event listener for any change on quantity or price classed inputs
 $("#orders").on('input', 'input.quantity,input.sale,input.product_price', function() {
@@ -320,10 +313,12 @@ function getTotalCost(ind) {
   var totNumber = (qty * price)+(qty * price*sale)/100;
 
 
-  var tot = totNumber.toFixed(2);
+
+  var tot = totNumber;
   $('#total_cost_'+ind).val(tot);
   calculateSubTotal();
 }
+
 
 function calculateSubTotal() {
   var subtotal = 0;
@@ -336,26 +331,35 @@ function calculateSubTotal() {
 // -----------------------------row qoshish-----------------------------------------------------------------------------------------------
 
 
+<?php
+    //get product from price 
+    $sql = "SELECT * FROM price_item_tbl WHERE price_id=(SELECT max(id) FROM price_tbl)";  
+    $product_list = mysqli_query ($connect, $sql);
+    //end get product
+
+
+
+?>
+
+
 $(document).ready(function () {
     var counter = 0;
-
-
+    var inc = 1;
  
-
     $("#addrow").on("click", function () {
+        inc++;
         var newRow = $("<tr>");
         var cols = "";                                                      
                 
-                                                                                                                                                                 
-        cols += '<td><select name="prod_name[]" form="order_form" class="form-control"><option value="">--выберите продукцию--</option><option value="<?php echo $a; ?>"><?php echo $a; ?></option><option value="<?php echo $b; ?>"><?php echo $b; ?></option><option value="<?php echo $c; ?>"><?php echo $c; ?></option><option value="<?php echo $d; ?>"><?php echo $d; ?></option><option value="<?php echo $e; ?>"><?php echo $e; ?></option><option value="<?php echo $f; ?>"><?php echo $f; ?></option><option value="<?php echo $g; ?>"><?php echo $g; ?></option><option value="<?php echo $h; ?>"><?php echo $h; ?></option><option value="<?php echo $i; ?>"><?php echo $i; ?></option><option value="<?php echo $j; ?>"><?php echo $j; ?></option></select></td>';
-        cols += '<td><input required type="text" name="count_name[]"  class="form-control" form="order_form"/></td>'; 
-        // cols += '<td><input required type="date" name="date_name[]"  class="form-control" form="order_form"/></td>';
-        cols += '<td><input disabled type="text" name="price_name[]"  class="form-control" form="order_form"/></td>';
-        cols += '<td><input required type="text" name="sale_name[]"  class="form-control" form="order_form"/></td>';
-        cols += '<td><input disabled type="text" name="total_name[]"  class="form-control" form="order_form"/></td>';
+        cols += '<td><select required name="prod_name[]" form="order_form" class="form-control" id="prod_name_'+inc+'" for="'+inc+'" onchange="showCustomer(this.value,'+inc+')"><option value="">--выберите продукцию--</option><?php while ($option = mysqli_fetch_array($product_list)) { ?> <option value="<?php echo $option["name"];?>"><?php echo $option["name"];?></option> <?php }; ?></select></td>';
+        cols += '<td><input required type="number" name="quantity[]"  class="form-control quantity" id="quantity_'+inc+'" for="'+inc+'" form="order_form"/></td>';
+        cols += '<td><div id="txtHint_'+inc+'"><input disabled data-type="product_price" type="number" name="product_price[]"  class="form-control product_price" id="product_price_'+inc+'" for="'+inc+'" form="order_form"/></div></td>';
+        cols += '<td><input required type="number" name="sale[]" class="form-control sale" id="sale_'+inc+'" for="'+inc+'" form="order_form"/></td>';
 
+        
 
-        cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
+        cols += '<td><input readonly="" type="text" name="total_cost[] " class="form-control total_cost" id="total_cost_'+inc+'" for="'+inc+'" form="order_form"/></td>';
+        cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="-"></td>';
         newRow.append(cols);
         $("table.order-list").append(newRow);
         counter++;
