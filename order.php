@@ -81,7 +81,7 @@ $rs_result = mysqli_query ($connect, $query);
         <table class="table table-hover table-bordered">
         <thead>
             <tr>
-            <!-- <th scope="col">Номер заказа</th> -->
+            <th scope="col">Н/З</th>
             <th scope="col">Контрагент</th>
             <th scope="col">Торговый представитель</th>
             <th scope="col">Дата заказа</th>
@@ -99,11 +99,10 @@ $rs_result = mysqli_query ($connect, $query);
     while ($row = mysqli_fetch_array($rs_result)) {    
 ?> 
             <tr>
-            
-                <!-- <td><?php echo $row["id"]; ?></td> -->
+                <td><?php echo $row["id"]; ?></td>
                 <td><?php $user = get_contractor($connect, $row["contractor"]);?>&nbsp;<?php echo $user["surname"]; ?>&nbsp;<?php echo $user["name"]; ?>&nbsp;<?php echo $user["fathername"]; ?></td>
                 <td><?php $user = get_user($connect, $row["sale_agent"]);?>&nbsp;<?php echo $user["surname"]; ?>&nbsp;<?php echo $user["name"]; ?>&nbsp;<?php echo $user["fathername"]; ?></td>
-                <td><?php echo $row["ord_date"]; ?></td>
+                <td><?php echo $date = date("d.m.Y", strtotime($row["ord_date"])); ?></td>
                 <td><?php echo $row["payment_type"]; ?></td>
                 <td><?php echo number_format($row['transaction_amount']); ?></td>
                 <td><a href="">Счет-фактура</a></td>
