@@ -554,7 +554,7 @@ function get_id_new_ord($connect){
 
 //orto 
 
-function add_each_prod($connect) {
+function add_each_pro($connect) {
 
 	$query = "SELECT id FROM order_tbl ORDER BY id DESC LIMIT 1";
 	$result = mysqli_query($connect, $query);
@@ -564,30 +564,34 @@ function add_each_prod($connect) {
 		$last_id = $rows[0];
 
 	
-	if(isset($_POST['submit']) && $_POST['submit'] == 'Принять'){
 
-        foreach($_POST['prod_name'] as $row => $value){
+	foreach($_POST['prod_name'] as $row => $value){
 
-                $prod_name=$_POST['prod_name'][$row];
-                $count_name=$_POST['count_name'][$row];
-                $date_name=$_POST['date_name'][$row];                   
-                $price_name=$_POST['price_name'][$row];
-                $sale_name=$_POST['sale_name'][$row];
-    			$total_name = ($count_name * $price_name) - ($count_name * $price_name * $sale_name) / 100;
-				$order_id = $last_id + 1;
+			$prod_name = $_POST['prod_name'][$row];
+			$count_name = $_POST['count_name'][$row];
+			$date_name = $_POST['date_name'][$row];                   
+			$price_name = $_POST['price_name'][$row];
+			$sale_name = $_POST['sale_name'][$row];
+			$total_name = ($count_name * $price_name) - ($count_name * $price_name * $sale_name) / 100;
+			$order_id = $last_id + 1;
 
-             $sql = "INSERT INTO `order_item_product` (`order_id`, `prod_name`, `count_name`, `date_name`, `price_name`, `sale_name`, `total_name`) VALUES ('".$order_id."','".$prod_name."','".$count_name."','".$date_name."','".$price_name."','".$sale_name."','".$total_name."');";
-              mysqli_query($connect, $sql);
-			// add to ostatok
-			  $query = "UPDATE rest_tbl SET rest = rest + '$count_name' WHERE prod_name='$prod_name'";
-              mysqli_query($connect, $query);
+			$sql = "INSERT INTO `order_item_product` (`order_id`, `prod_name`, `count_name`, `date_name`, `price_name`, `sale_name`, `total_name`) VALUES ('".$order_id."','".$prod_name."','".$count_name."','".$date_name."','".$price_name."','".$sale_name."','".$total_name."');";
+			mysqli_query($connect, $sql);
+		// add to ostatok
+			$query = "UPDATE rest_tbl SET rest = rest + '$count_name' WHERE prod_name='$prod_name'";
+			if (mysqli_query($connect, $query)) {
+				redirect("in_store.php");
+			}else {
+				echo 'error';
+			}
+			
     }
 
 	
 	
-	redirect("in_store.php");
+	
 
-}
+
 
 
 }

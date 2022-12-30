@@ -12,16 +12,24 @@ $border-bottom-color_1: #337ab7;
     background-color: #3C3C3C;
 } */
 /*end of login page style*/
+
+
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+    transition: all 0.01s;
+
 }
 body {
 	background-color: $background-color_1;
 	font-family: $font-family_1;
 	font-size: 12px;
 }
+
+
+
+
 .form {
 	display: block;
 	margin: 0 auto;
@@ -145,8 +153,9 @@ input[type='radio']:checked:after {
 		font-size: 12px;
 	}
 }
-.all_table {
+.table {
 	padding-top: 10px;
+
 }
 .card_head {
 	padding: 3px;
@@ -202,5 +211,3 @@ input[type='radio']:checked:after {
 .w600 {
 	font-weight: 600;
 }
-
-

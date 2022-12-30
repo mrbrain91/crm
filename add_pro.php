@@ -1,7 +1,9 @@
 <?php
-
 include('settings.php');
 include('bot_lib.php');
+
+// https://stackoverflow.com/questions/18796221/creating-a-select-box-with-a-search-option/57809086#57809086p
+
 
 if (!isset($_SESSION['usersname'])) {
   header("location: index.php");
@@ -19,17 +21,6 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Принять') {
 
 $sql = "SELECT * FROM products_tbl";  
 $product_list = mysqli_query ($connect, $sql);
-
-
-
-
-
-// $query = "SELECT * FROM product_tbl";
-// $rest = mysqli_query($connect, $query);
- 
-// while($row = mysqli_fetch_array($rest)){
-//    echo "<option value='".$row['product_name']."'>".$row['product_name']."</option>";
-// }   
 
 
 
@@ -123,16 +114,20 @@ $product_list = mysqli_query ($connect, $sql);
         <tbody>
             <tr>
                 <td class="col-sm-4">
-                    <select required name="prod_name[]" form="order_form" class="form-control">
-                        <option value="">--выберитe продукцию---</option>
+
+
+                    <input list="prl" required name="prod_name[]" form="order_form" class="form-control">
+
+                    <datalist id="prl" >
+                        <!-- <option value="">--выберитe продукцию---</option> -->
                         <?php     
                             while ($option = mysqli_fetch_array($product_list)) {    
                         ?> 
-                            <option value="<?php echo $option["name"];?>"><?php echo $option["name"];?></option>
+                            <option value="<?php echo $option["name"];?>">
                         <?php       
                             };    
                         ?>
-                    </select>
+                    </datalist>
                 </td>
                 <td class="col-sm-1">
                     <input required type="text" name="count_name[]"  class="form-control" form="order_form"/>
@@ -150,10 +145,6 @@ $product_list = mysqli_query ($connect, $sql);
                     <input required type="text" name="sale_name[]"  class="form-control" form="order_form"/>
                     
                 </td>
-                <!-- <td class="col-sm-2">
-                    <input disabled type="text" name="total_name[]"  class="form-control" form="order_form"/>
-                    
-                </td> -->
                 <td class="col-sm-1">
                     <i class="fa fa-plus"  id="addrow" style="cursor:pointer"></i>
                 </td>
@@ -166,12 +157,6 @@ $product_list = mysqli_query ($connect, $sql);
         </tbody>
         <tfooter>
             <tr>
-                <!-- <td></td>
-                <td></td>
-                <td></td>
-                <td></td> -->
-                <!-- <td>Количество: 0</td>
-                <td>Сумма: 0</td> -->
             </tr>
         </tfooter>
     </table>
@@ -187,13 +172,14 @@ $product_list = mysqli_query ($connect, $sql);
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </body>
+
+
+
 <script>
 
 <?php 
-
-$sql = "SELECT * FROM products_tbl";  
-$product_list = mysqli_query ($connect, $sql);
-
+    $sql = "SELECT * FROM products_tbl";  
+    $product_list = mysqli_query ($connect, $sql);
 ?>
 
 $(document).ready(function () {

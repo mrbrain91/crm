@@ -98,10 +98,10 @@ $rs_result = mysqli_query ($connect, $query);
             </div>
             <div class="row">
                 <div class="col-md-3 dash">
-                    <?php echo $sale_agent; ?>
+                <?php $user = get_user($connect, $sale_agent);?>&nbsp;<?php echo $user["surname"]; ?>&nbsp;<?php echo $user["name"]; ?>&nbsp;<?php echo $user["fathername"]; ?>
                 </div>
                 <div class="col-md-3 dash">
-                    <?php echo $contractor; ?>
+                    <?php $user = get_contractor($connect, $contractor);?>&nbsp;<?php echo $user["surname"]; ?>&nbsp;<?php echo $user["name"]; ?>&nbsp;<?php echo $user["fathername"]; ?>
                 </div>
             </div>
         </form>

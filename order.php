@@ -55,27 +55,6 @@ $rs_result = mysqli_query ($connect, $query);
 
 
 
-<!-- <table class="table table-hover">
-    <thead>
-        <th></th><th></th><th></th>
-    </thead>
-    
-    <tbody>
-        <tr data-toggle="collapse" data-target="#accordion" class="clickable">
-            <td>Some Stuff</td>
-            <td>Some more stuff</td>
-            <td>And some more</td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <div id="accordion" class="collapse">Hidden by default</div>
-            </td>
-        </tr>
-    </tbody>
-</table> -->
-
-
-
 <div class="all_table">
     <div class="container-fluid">
         <table class="table table-hover table-bordered">
@@ -87,33 +66,40 @@ $rs_result = mysqli_query ($connect, $query);
             <th scope="col">Дата заказа</th>
             <th scope="col">Тип оплаты</th>
             <th scope="col">Сумма сделки</th>
-            <th scope="col">Накладные</th>
-            <th scope="col">Просмотр</th>
-            <th scope="col">Редактировать</th>
-            <th scope="col">Архивировать</th>
-            <th scope="col">Удалить</th>
+            <th scope="col">Дополнительное</th>
+          
             </tr>
         </thead>
         <tbody>
+            
 <?php     
-    while ($row = mysqli_fetch_array($rs_result)) {    
+    $i = 0;
+    while ($row = mysqli_fetch_array($rs_result)) {
+    $i++;
+
 ?> 
-            <tr>
-                <td><?php echo $row["id"]; ?></td>
-                <td><?php $user = get_contractor($connect, $row["contractor"]);?>&nbsp;<?php echo $user["surname"]; ?>&nbsp;<?php echo $user["name"]; ?>&nbsp;<?php echo $user["fathername"]; ?></td>
-                <td><?php $user = get_user($connect, $row["sale_agent"]);?>&nbsp;<?php echo $user["surname"]; ?>&nbsp;<?php echo $user["name"]; ?>&nbsp;<?php echo $user["fathername"]; ?></td>
-                <td><?php echo $date = date("d.m.Y", strtotime($row["ord_date"])); ?></td>
-                <td><?php echo $row["payment_type"]; ?></td>
-                <td><?php echo number_format($row['transaction_amount']); ?></td>
-                <td><a href="">Счет-фактура</a></td>
-                <td><a href="view_inside_order.php?id=<?php echo $row["id"]; ?>&&payment_type=<?php echo $row["payment_type"]; ?>&&sale_agent=<?php echo $row["sale_agent"]; ?>&&contractor=<?php echo $row["contractor"]; ?>&&date=<?php echo $row["ord_date"]; ?>">Просмотр</a></td>
-                <td><a href="edit_inside_order.php?id=<?php echo $row["id"]; ?>&&payment_type=<?php echo $row["payment_type"]; ?>&&sale_agent=<?php echo $row["sale_agent"]; ?>&&contractor=<?php echo $row["contractor"]; ?>&&date=<?php echo $row["ord_date"]; ?>">Редактировать</a></td>
-                <td><a href="action.php?archive_id=<?=$row['id']?>" onclick="return confirm('Архивировать?')" role="button">Архивировать</a></td>
-                <td><a href="action.php?delete_id=<?=$row['id']?>" onclick="return confirm('Удалить?')" role="button">Удалить</a></td>
-            </tr>
+        <tr data-toggle="collapse" data-target="#hidden_<?php echo $i;?>" aria-expanded="true" class="accordion-toggle">
+            <td><?php echo $row["id"]; ?></td>
+            <td><?php $user = get_contractor($connect, $row["contractor"]);?>&nbsp;<?php echo $user["surname"]; ?>&nbsp;<?php echo $user["name"]; ?>&nbsp;<?php echo $user["fathername"]; ?></td>
+            <td><?php $user = get_user($connect, $row["sale_agent"]);?>&nbsp;<?php echo $user["surname"]; ?>&nbsp;<?php echo $user["name"]; ?>&nbsp;<?php echo $user["fathername"]; ?></td>
+            <td><?php echo $date = date("d.m.Y", strtotime($row["ord_date"])); ?></td>
+            <td><?php echo $row["payment_type"]; ?></td>
+            <td><?php echo number_format($row['transaction_amount']); ?></td>
+            <td>
+
+            <select class="form-control" onchange="location = this.value;">
+                <option value="" >выберите</option>
+                <option value="view_inside_order.php?id=<?php echo $row["id"]; ?>&&payment_type=<?php echo $row["payment_type"]; ?>&&sale_agent=<?php echo $row["sale_agent"]; ?>&&contractor=<?php echo $row["contractor"]; ?>&&date=<?php echo $row["ord_date"]; ?>">Просмотр</option>
+                <option value="edit_inside_order.php?id=<?php echo $row["id"]; ?>&&payment_type=<?php echo $row["payment_type"]; ?>&&sale_agent=<?php echo $row["sale_agent"]; ?>&&contractor=<?php echo $row["contractor"]; ?>&&date=<?php echo $row["ord_date"]; ?>">Редактировать</option>
+                <option value="action.php?archive_id=<?=$row['id']?>" onclick="return confirm('Архивировать?')" role="button">Архивировать</option>
+                <option value="action.php?delete_id=<?=$row['id']?>" onclick="return confirm('Отменить?')" role="button">Отменить</option>
+                <option value="">Счет-фактура</option>
+            </select>
+                
 <?php       
     };    
 ?>
+
         </tbody>
         </table>
     </div>
@@ -123,9 +109,7 @@ $rs_result = mysqli_query ($connect, $query);
 
 
 <div class="container-fluid">
-
     <?php include 'partSite/modal.php'; ?>
-    
 </div>
 
 
