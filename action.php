@@ -30,6 +30,10 @@ include('bot_lib.php');
 if (isset($_GET['archive_id'])) {
 
     $archive_id = $_GET['archive_id'];
+    $contractor = $_GET['contractor_id'];
+    $debt = $_GET['debt'];
+    $ord_date = $_GET['ord_date'];
+    $payment_type = $_GET['payment_type'];
 //-----------------------ostatka uchun-----------------
     $sql = "SELECT * FROM main_ord__item_tbl WHERE order_id='$archive_id' AND order_itm_sts = 0";
 	$rs_result = mysqli_query ($connect, $sql);
@@ -41,13 +45,18 @@ if (isset($_GET['archive_id'])) {
     }
 //----------------------------------------
 
+
     if (upd_order_sts($connect, $archive_id)) {
        if (upd_order_itm_sts($connect, $archive_id)) {
-            header("Location: order.php"); 
-       }
+            //--------------------debt yozish--------------------
+            add_debt($connect, $archive_id, $contractor, $debt, $ord_date, $payment_type);
+        }
     }
-    
 }
+
+
+    
+
 
 
 //yangi prays yaratish

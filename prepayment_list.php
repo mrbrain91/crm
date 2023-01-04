@@ -5,6 +5,15 @@ include('bot_lib.php');
 if (!isset($_SESSION['usersname'])) {
   header("location: index.php");
 }
+
+
+
+$query = "SELECT * FROM prepayments WHERE status='0' ORDER BY id DESC";
+$rs_result = mysqli_query ($connect, $query);   
+
+
+
+
 ?>
 
 
@@ -39,7 +48,7 @@ if (!isset($_SESSION['usersname'])) {
 
 <div class="toolbar">
         <div class="container-fluid">
-           <a href="#"> <button type="button" class="btn btn-success">Добавить</button> </a>
+           <a href="prepayment_add.php"> <button type="button" class="btn btn-success">Добавить</button> </a>
         </div>
 </div>
 
@@ -60,32 +69,26 @@ if (!isset($_SESSION['usersname'])) {
             </tr>
         </thead>
         <tbody>
+
+        <?php     
+            $i = 0;
+            while ($row = mysqli_fetch_array($rs_result)) {
+            $i++;
+        ?> 
             <tr>
-            <td>ООО "EURO PHARM MARKET"</td>
-            <td>20.12.2021</td>
-            <td>Перечисление</td>
-            <td>2 214 000</td>
+            <td><?php $user = get_contractor($connect, $row["id_counterpartie"]); echo $user["name"];?></td>
+            <td><?php echo $date = date("d.m.Y", strtotime($row["prepayment_date"])); ?></td>
+
+            <td><?php echo $row['payment_type']?></td>
+            <td><?php echo $row['prepayment_sum']?></td>
             <td><a href="view_prod.php">Просмотр</a></td>
             <td><a href="edit_pro.php">Редактировать</a></td>
 
             </tr>
-            <tr>
-            <td>ООО "EURO PHARM MARKET"</td>
-            <td>20.12.2021</td>
-            <td>Перечисление</td>
-            <td>2 214 000</td>
-            <td><a href="view_prod.php">Просмотр</a></td>
-            <td><a href="edit_pro.php">Редактировать</a></td>
-
-            </tr>
-            <tr>
-            <td>ООО "EURO PHARM MARKET"</td>
-            <td>20.12.2021</td>
-            <td>Наличные деньги</td>
-            <td>2 214 000</td>
-            <td><a href="view_prod.php">Просмотр</a></td>
-            <td><a href="edit_pro.php">Редактировать</a></td>
-            </tr>
+        <?php       
+            };     
+        ?>
+           
         </tbody>
         </table>
     </div>

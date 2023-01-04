@@ -91,11 +91,11 @@ $rs_result = mysqli_query ($connect, $query);
                 <option value="" >выберите</option>
                 <option value="view_inside_order.php?id=<?php echo $row["id"]; ?>&&payment_type=<?php echo $row["payment_type"]; ?>&&sale_agent=<?php echo $row["sale_agent"]; ?>&&contractor=<?php echo $row["contractor"]; ?>&&date=<?php echo $row["ord_date"]; ?>">Просмотр</option>
                 <option value="edit_inside_order.php?id=<?php echo $row["id"]; ?>&&payment_type=<?php echo $row["payment_type"]; ?>&&sale_agent=<?php echo $row["sale_agent"]; ?>&&contractor=<?php echo $row["contractor"]; ?>&&date=<?php echo $row["ord_date"]; ?>">Редактировать</option>
-                <option value="action.php?archive_id=<?=$row['id']?>" onclick="return confirm('Архивировать?')" role="button">Архивировать</option>
+                <option value="action.php?archive_id=<?=$row['id']?>&&contractor_id=<?=$row['contractor']?>&&debt=<?=$row['transaction_amount']?>&&ord_date=<?=$row['ord_date']?>&&payment_type=<?=$row['payment_type']?> " onclick="return confirm('Архивировать?')" role="button">Архивировать</option>
                 <option value="action.php?delete_id=<?=$row['id']?>" onclick="return confirm('Отменить?')" role="button">Отменить</option>
                 <option value="">Счет-фактура</option>
             </select>
-                
+        
 <?php       
     };    
 ?>

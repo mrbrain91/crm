@@ -6,6 +6,14 @@ include('bot_lib.php');
 if (!isset($_SESSION['usersname'])) {
   header("location: index.php");
 }
+
+
+
+$query = "SELECT * FROM settlements WHERE status='0' ORDER BY id DESC";
+$rs_result = mysqli_query ($connect, $query);   
+
+
+
 ?>
 
 
@@ -26,7 +34,6 @@ if (!isset($_SESSION['usersname'])) {
     <link rel="stylesheet" href="css/bootstrap-grid.min.css">
     <link rel="stylesheet" href="css/style.css">
     <title>ortosavdo</title>
-    
 </head>
 <body>  
 
@@ -42,7 +49,9 @@ if (!isset($_SESSION['usersname'])) {
 
 <div class="toolbar">
         <div class="container-fluid">
-           <a href="add_order.php"> <button type="button" class="btn btn-success">Взаимозачет</button> </a>
+           <a href="#"> <button type="button" class="btn btn-success">Взаимозачет</button> </a>
+           <a href="add_order.php"> <button type="button" class="btn btn-primary">должники</button> </a>
+           <a href="add_order.php"> <button type="button" class="btn">история взаимарасчетов</button> </a>
         </div>
 </div>
 
@@ -51,8 +60,8 @@ if (!isset($_SESSION['usersname'])) {
         <table class="table table-striped table-bordered">
         <thead>
             <tr>
-            <th scope="col">ИНН</th>
             <th scope="col">Контрагент</th>
+            <th scope="col">ИНН</th>
             <th scope="col">Долг</th>
             <th scope="col">Предоплата</th>
             <th scope="col">Заказ</th>
@@ -61,33 +70,31 @@ if (!isset($_SESSION['usersname'])) {
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>303169768</td>
-                <td>"ZENTA PHARM" MChJ</td>
-                <td>16 071 168</td>
-                <td>10 844 000</td>
+
+
+            <?php     
+                $i = 0;
+                while ($row = mysqli_fetch_array($rs_result)) {
+                $i++;
+
+            ?> 
+
+            <tr data-toggle="collapse" data-target="#hidden_<?php echo $i;?>">
+            <td><?php $user = get_contractor($connect, $row["id_counterpartie"]); echo $user["name"];?></td>
+            <td><?php echo $user['inn']?></td>
+                <td><?php echo $row['debt']?></td>
+                <td><?php echo $row['prepayment']?></td>
                 <td>0</td>
-                <td>5 227 168</td>
+                <td><?php echo $sum = $row['debt'] - $row['prepayment']; ?></td>
                 <td><a href="#">Детали</a></td>
             </tr>
-            <tr>
-                <td>303169768</td>
-                <td>"ZENTA PHARM" MChJ</td>
-                <td>16 071 168</td>
-                <td>10 844 000</td>
-                <td>0</td>
-                <td>5 227 168</td>
-                <td><a href="#">Детали</a></td>
-            </tr>
-            <tr>
-                <td>303169768</td>
-                <td>"ZENTA PHARM" MChJ</td>
-                <td>16 071 168</td>
-                <td>10 844 000</td>
-                <td>0</td>
-                <td>5 227 168</td>
-                <td><a href="#">Детали</a></td>
-            </tr>
+
+            <?php       
+                };     
+            ?>
+
+
+
         </tbody>
         </table>
     </div>

@@ -38,6 +38,7 @@ $product_list = mysqli_query ($connect, $sql);
      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" />
     <link rel="stylesheet" href="css/style.css">
     <title>ortosavdo</title>
 </head>
@@ -112,22 +113,21 @@ $product_list = mysqli_query ($connect, $sql);
             </tr>
         </thead>
         <tbody>
+
+
+            
             <tr>
                 <td class="col-sm-4">
-
-
-                    <input list="prl" required name="prod_name[]" form="order_form" class="form-control">
-
-                    <datalist id="prl" >
-                        <!-- <option value="">--выберитe продукцию---</option> -->
-                        <?php     
-                            while ($option = mysqli_fetch_array($product_list)) {    
-                        ?> 
-                            <option value="<?php echo $option["name"];?>">
-                        <?php       
-                            };    
-                        ?>
-                    </datalist>
+                        <select required class="form-control"  name="prod_name[]" form="order_form" >
+                            <option  value="">--выберитe продукцию---</option>
+                            <?php     
+                                while ($option = mysqli_fetch_array($product_list)) {    
+                            ?> 
+                                <option value="<?php echo $option["name"];?>"><?php echo $option["name"];?></option>
+                            <?php       
+                                };    
+                            ?>
+                        </select>
                 </td>
                 <td class="col-sm-1">
                     <input required type="text" name="count_name[]"  class="form-control" form="order_form"/>
@@ -171,11 +171,14 @@ $product_list = mysqli_query ($connect, $sql);
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
 </body>
 
 
 
 <script>
+
+$('#normalize').selectize();
 
 <?php 
     $sql = "SELECT * FROM products_tbl";  

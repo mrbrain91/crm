@@ -104,6 +104,8 @@ function select_cron_mess_idd($connect){
 //orto 
 // ------------------get_data_rest_tbl-----------------------------------------
 
+
+
 function get_data_rest_tbl($connect){
 	$query = "SELECT * FROM rest_tbl WHERE rest != 0";
 	$rs_result = mysqli_query ($connect, $query);
@@ -628,9 +630,56 @@ function add_product_price($connect, $id, $product_price, $product_name){
 	else {
 		die(mysqli_error($connect));
 	}
-	
-	
+
 }
+
+function add_debt($connect, $archive_id, $contractor_id, $debt, $ord_date, $payment_type){
+
+	$sql = "INSERT INTO `debts` (`order_id`, `id_counterpartie`, `debt`, `order_date`, `payment_type`) VALUES ('".$archive_id."','".$contractor_id."','".$debt."','".$ord_date."','".$payment_type."');";
+	if(mysqli_query($connect, $sql)) {
+		$query = "SELECT  * FROM settlements WHERE id_counterpartie='$contractor_id'";
+		$rs = mysqli_query($connect, $query);
+		if(mysqli_num_rows($rs)<=0){
+			$sql = "INSERT INTO `settlements` (`id_counterpartie`, `debt`) VALUES ('".$contractor_id."','".$debt."');";
+			mysqli_query($connect, $sql);
+		}else {
+			$query = "UPDATE settlements SET debt = debt + '$debt' WHERE id_counterpartie='$contractor_id'";
+			mysqli_query($connect, $query);
+		}
+
+		redirect("order.php");
+	}
+	else {
+		die(mysqli_error($connect));
+	}
+
+}
+
+function add_prepayment($connect, $id_counterpartie, $prepayment_date, $prepayment_sum, $payment_type){
+
+	$sql = "INSERT INTO `prepayments` (`id_counterpartie`, `prepayment_date`, `prepayment_sum`, `payment_type`) VALUES ('".$id_counterpartie."','".$prepayment_date."','".$prepayment_sum."','".$payment_type."');";
+	if(mysqli_query($connect, $sql)) {
+
+		$query = "SELECT  * FROM settlements WHERE id_counterpartie='$id_counterpartie'";
+		$rs = mysqli_query($connect, $query);
+		if(mysqli_num_rows($rs)<=0){
+			$sql = "INSERT INTO `settlements` (`id_counterpartie`, `prepayment`) VALUES ('".$id_counterpartie."','".$prepayment_sum."');";
+			mysqli_query($connect, $sql);
+		}else {
+			$query = "UPDATE settlements SET prepayment = prepayment + '$prepayment_sum' WHERE id_counterpartie='$id_counterpartie'";
+			mysqli_query($connect, $query);
+		}
+
+
+
+		redirect("prepayment_list.php");
+	}
+	else {
+		die(mysqli_error($connect));
+	}
+
+}
+
 
 
 

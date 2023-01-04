@@ -57,6 +57,7 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Принять') {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" />
     <link rel="stylesheet" href="css/style.css">
 
     <title>ortosavdo</title>
@@ -102,7 +103,7 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Принять') {
                     <input type="date" value="<?php echo date("Y-m-d"); ?>"  class="form-control" name="main_order_date" form="order_form">
                 </div>
                 <div class="col-md-3">
-                    <select required name="main_order_paymen_type" form="order_form" class="form-control">
+                    <select required name="main_order_paymen_type" form="order_form" class="normalize">
                             <option value="">--выберите---</option>
                             <option value="<?php echo 'Перечисление';?>"><?php echo 'Перечисление';?></option>
                             <option value="<?php echo 'Наличные деньги';?>"><?php echo 'Наличные деньги';?></option>
@@ -119,7 +120,7 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Принять') {
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <select required name="main_order_sale_agent" form="order_form" class="form-control">
+                    <select required name="main_order_sale_agent" form="order_form" class="normalize">
                         <option value="">--выберитe---</option>
                         <?php    
                             while ($option = mysqli_fetch_array($users_tbl)) {    
@@ -131,7 +132,7 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Принять') {
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <select required name="main_order_contractor" form="order_form" class="form-control">
+                    <select required name="main_order_contractor" form="order_form" class="normalize">
                         <option value="">--выберитe---</option>
                         <?php    
                             while ($option_contractor = mysqli_fetch_array($counterparties_tbl)) {    
@@ -250,12 +251,17 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Принять') {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
 
 
 
 </body>
 
 <script>
+
+
+$('.normalize').selectize();
+
 
 
 

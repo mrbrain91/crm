@@ -27,7 +27,7 @@
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Финансы</a>
         <ul class="dropdown-menu">
           <li><a href="settlements_clients.php">Вызаиморасчеты с клиентами</a></li>
-          <li><a href="pay_contractors.php">Оплаты от контрагентов</a></li>
+          <li><a href="prepayment_list.php">Оплаты от контрагентов</a></li>
           <!-- <li><a href="#">Вызаиморасчеты с поставщиками</a></li> -->
           <!-- <li><a href="#">Оплаты поставщиком</a></li> -->
           <li><a href="#">Приход</a></li>
