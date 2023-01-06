@@ -49,9 +49,9 @@ $rs_result = mysqli_query ($connect, $query);
 
 <div class="toolbar">
         <div class="container-fluid">
-           <a href="#"> <button type="button" class="btn btn-success">Взаимозачет</button> </a>
-           <a href="add_order.php"> <button type="button" class="btn btn-primary">должники</button> </a>
-           <a href="add_order.php"> <button type="button" class="btn">история взаимарасчетов</button> </a>
+           <!-- <a href="#"> <button type="button" class="btn btn-success">Взаимозачет</button> </a> -->
+           <a href="debtor.php"> <button type="button" class="btn btn-primary">должники</button> </a>
+           <a href="#"> <button type="button" class="btn">история взаимарасчетов</button> </a>
         </div>
 </div>
 
@@ -86,7 +86,7 @@ $rs_result = mysqli_query ($connect, $query);
                 <td><?php echo $row['prepayment']?></td>
                 <td>0</td>
                 <td><?php echo $sum = $row['debt'] - $row['prepayment']; ?></td>
-                <td><a href="#">Детали</a></td>
+                <td><a href="settlement_detail.php?id=<?php echo $row["id_counterpartie"]?>&&prepayment=<?php echo $row['prepayment']?>">Детали</a></td>
             </tr>
 
             <?php       

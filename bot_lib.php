@@ -580,12 +580,28 @@ function add_each_pro($connect) {
 			$sql = "INSERT INTO `order_item_product` (`order_id`, `prod_name`, `count_name`, `date_name`, `price_name`, `sale_name`, `total_name`) VALUES ('".$order_id."','".$prod_name."','".$count_name."','".$date_name."','".$price_name."','".$sale_name."','".$total_name."');";
 			mysqli_query($connect, $sql);
 		// add to ostatok
-			$query = "UPDATE rest_tbl SET rest = rest + '$count_name' WHERE prod_name='$prod_name'";
-			if (mysqli_query($connect, $query)) {
+
+
+
+
+		$query = "SELECT  * FROM rest_tbl WHERE prod_name='$prod_name'";
+		$rs = mysqli_query($connect, $query);
+		if(mysqli_num_rows($rs)<=0){
+			$sql = "INSERT INTO `rest_tbl` (`prod_name`, `rest`) VALUES ('".$prod_name."','".$count_name."');";
+			if (mysqli_query($connect, $sql)) {
 				redirect("in_store.php");
-			}else {
-				echo 'error';
 			}
+		}else {
+			$query = "UPDATE settlements SET debt = debt + '$debt' WHERE id_counterpartie='$contractor_id'";
+			mysqli_query($connect, $query);
+		}
+
+
+
+
+
+
+			
 			
     }
 
