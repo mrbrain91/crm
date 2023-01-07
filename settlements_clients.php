@@ -9,10 +9,12 @@ if (!isset($_SESSION['usersname'])) {
 
 
 
-$query = "SELECT * FROM settlements WHERE status='0' ORDER BY id DESC";
-$rs_result = mysqli_query ($connect, $query);   
+// $query = "SELECT * FROM settlements WHERE status='0' ORDER BY id DESC";
+// $rs_result = mysqli_query ($connect, $query);   
 
+$query = "SELECT id_counterpartie, SUM(debt) AS total_debt, SUM(prepayment) AS total_prepayment FROM debts GROUP BY id_counterpartie";
 
+$rs_result = mysqli_query ($connect, $query);
 
 ?>
 
@@ -82,10 +84,10 @@ $rs_result = mysqli_query ($connect, $query);
             <tr data-toggle="collapse" data-target="#hidden_<?php echo $i;?>">
             <td><?php $user = get_contractor($connect, $row["id_counterpartie"]); echo $user["name"];?></td>
             <td><?php echo $user['inn']?></td>
-                <td><?php echo $row['debt']?></td>
-                <td><?php echo $row['prepayment']?></td>
+                <td><?php echo $row['total_debt']?></td>
+                <td><?php echo $row['total_prepayment']?></td>
                 <td>0</td>
-                <td><?php echo $sum = $row['debt'] - $row['prepayment']; ?></td>
+                <td><?php echo $sum = $row['total_debt'] - $row['total_prepayment']; ?></td>
                 <td><a href="settlement_detail.php?id=<?php echo $row["id_counterpartie"]?>&&prepayment=<?php echo $row['prepayment']?>">Детали</a></td>
             </tr>
 

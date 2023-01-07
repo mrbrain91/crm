@@ -671,6 +671,16 @@ function add_debt($connect, $archive_id, $contractor_id, $debt, $ord_date, $paym
 
 }
 
+function add_main_prepayment($connect, $id_counterpartie, $prepayment_date, $prepayment_sum, $payment_type){
+
+	$sql = "INSERT INTO `debts` (`id_counterpartie`, `order_date`, `main_prepayment`, `payment_type`) VALUES ('".$id_counterpartie."','".$prepayment_date."','".$prepayment_sum."','".$payment_type."');";
+	
+	if (mysqli_query($connect, $sql)) {
+		redirect("prepayment_list.php");
+	}
+
+}
+
 function add_prepayment($connect, $id_counterpartie, $prepayment_date, $prepayment_sum, $payment_type){
 
 	$sql = "INSERT INTO `prepayments` (`id_counterpartie`, `prepayment_date`, `prepayment_sum`, `payment_type`) VALUES ('".$id_counterpartie."','".$prepayment_date."','".$prepayment_sum."','".$payment_type."');";

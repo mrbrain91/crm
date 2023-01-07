@@ -8,7 +8,7 @@ if (!isset($_SESSION['usersname'])) {
 
 
 
-$query = "SELECT * FROM prepayments WHERE status='0' ORDER BY id DESC";
+$query = "SELECT * FROM debts WHERE main_prepayment!='0' ORDER BY id DESC";
 $rs_result = mysqli_query ($connect, $query);   
 
 
@@ -77,12 +77,12 @@ $rs_result = mysqli_query ($connect, $query);
         ?> 
             <tr>
             <td><?php $user = get_contractor($connect, $row["id_counterpartie"]); echo $user["name"];?></td>
-            <td><?php echo $date = date("d.m.Y", strtotime($row["prepayment_date"])); ?></td>
+            <td><?php echo $date = date("d.m.Y", strtotime($row["order_date"])); ?></td>
 
             <td><?php echo $row['payment_type']?></td>
-            <td><?php echo $row['prepayment_sum']?></td>
-            <td><a href="view_prod.php">Просмотр</a></td>
-            <td><a href="edit_pro.php">Редактировать</a></td>
+            <td><?php echo $row['main_prepayment']?></td>
+            <td><a href="#">Просмотр</a></td>
+            <td><a href="#">Редактировать</a></td>
 
             </tr>
         <?php       

@@ -73,10 +73,10 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'завершить') {
 <div class="toolbar">
         <div class="container-fluid">
            <!-- <a href="#"> <button type="button" class="btn btn-success">Взаимозачет</button> </a> -->
-           <a href="settlements_clients.php"> <button type="button" class="btn">закрыть</button> </a>
+           <input class="btn btn-primary" type="submit" form="order_form" name="submit" value="завершить" />
+           <a href="debtor.php"> <button type="button" class="btn">закрыть</button> </a>
         <div class="prepay">Предоплата: <?php echo $prepayment; ?></div>
         </div>
-       
 </div>
 
 <div class="all_table">
@@ -90,6 +90,7 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'завершить') {
                 <th scope="col">Дата заказа</th>
                 <th scope="col">Тип оплаты</th>
                 <th scope="col">Долг</th>
+                <th class="w20" scope="col">Сумма</th>
 
                 </tr>
             </thead>
@@ -111,10 +112,17 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'завершить') {
                     $total_debt = $row2['total_debt'];
 
                     $balance = $total_debt - $total_prepayment;
+
+
+                    if ($balance == 0) {
+                        $display = 'none';
+                      }else {
+                        $display = 'true';
+                      }
                     
                 ?> 
 
-                <tr data-toggle="collapse" data-target="#hidden_<?php echo $i;?>">
+                <tr style="display:<?php echo $display; ?>;" data-toggle="collapse" data-target="#hidden_<?php echo $i;?>">
                     <td><?php echo $row['order_id']?></td>
                     <input type="hidden" value='<?php echo $row['order_id']?>' name="order_id[]" form="order_form">
                     <input type="hidden" value='<?php echo $row['id_counterpartie']?>' name="id_counterpartie[]" form="order_form">
@@ -122,6 +130,7 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'завершить') {
                     <td><?php echo $row['order_date']?></td>
                     <td><?php echo $row['payment_type']?></td>
                     <td><?php echo $balance?></td>
+                    <td><input required type="text" value='0' class="form-control" name="payment[]" form="order_form"></td>
                 </tr>
 
                 <?php       

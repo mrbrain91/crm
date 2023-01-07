@@ -9,9 +9,16 @@ if (!isset($_SESSION['usersname'])) {
 
 
 
-$query = "SELECT * FROM settlements WHERE status='0' AND debt>'0' ORDER BY id DESC";
-$rs_result = mysqli_query ($connect, $query);   
+// $query = "SELECT * FROM settlements WHERE status='0' AND debt>'0' ORDER BY id DESC";
+// $rs_result = mysqli_query ($connect, $query);
 
+ 
+
+$query = "SELECT id_counterpartie, SUM(prepayment) as total_prepayment, SUM(debt) AS total_debt, SUM(main_prepayment) AS total_main_prepayment FROM debts GROUP BY id_counterpartie";
+$rs_result = mysqli_query ($connect, $query);
+
+// $row1 = mysqli_fetch_assoc(mysqli_query($connect, $query1));
+// $total_prepayment = $row1['total_prepayment'];
 
 
 ?>
@@ -76,17 +83,24 @@ $rs_result = mysqli_query ($connect, $query);
                 $i = 0;
                 while ($row = mysqli_fetch_array($rs_result)) {
                 $i++;
-
+                
+                $last_debt = $row['total_debt']- $row['total_prepayment'];
+                $last_tot = $row['total_main_prepayment'] - $row['total_prepayment'];
+                if ($last_debt == 0 AND $last_tot == 0 ) {
+                  $display = 'none';
+                }else {
+                  $display = 'true';
+                }
             ?> 
 
-            <tr data-toggle="collapse" data-target="#hidden_<?php echo $i;?>">
+            <tr style="display:<?php echo $display; ?>;" data-toggle="collapse" data-target="#hidden_<?php echo $i;?>">
             <td><?php $user = get_contractor($connect, $row["id_counterpartie"]); echo $user["name"];?></td>
             <td><?php echo $user['inn']?></td>
-                <td><?php echo $row['debt']?></td>
-                <td><?php echo $row['prepayment']?></td>
+                <td><?php echo $last_debt; ?></td>
+                <td><?php echo $last_tot; ?></td>
                 <td>0</td>
-                <td><?php echo $sum = $row['debt'] - $row['prepayment']; ?></td>
-                <td><a href="settlement_detail.php?id=<?php echo $row["id_counterpartie"]?>&&prepayment=<?php echo $row['prepayment']?>">Детали</a></td>
+                <td><?php echo $sum = $last_debt - $last_tot; ?></td>
+                <td><a href="settlement_debts_detail.php?id=<?php echo $row["id_counterpartie"]?>&&prepayment=<?php echo $last_tot;?>">Детали</a></td>
             </tr>
 
             <?php       
